@@ -22,8 +22,9 @@
 </template>
 
 <script>
-import TabBar from "./tabbar/TabBar";
-import TabBarItem from "./tabbar/TabBarItem";
+import TabBar from "@/components/common/tabbar/TabBar";
+import TabBarItem from "@/components/common/tabbar/TabBarItem.vue";
+
 export default {
   name: "MainTabBar",
   data() {

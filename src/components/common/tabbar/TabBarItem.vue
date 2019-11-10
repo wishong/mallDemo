@@ -1,6 +1,6 @@
 <template>
   <div class="tabBarItem">
-    <div :class="{red:actived}" @click="link">
+    <div :class="{color:actived}" @click="link">
       <slot></slot>
     </div>
   </div>
@@ -31,7 +31,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "../../assets/css/iconfont/iconfont.css";
+@import "../../../assets/css/iconfont/iconfont.css";
+
 .tabBarItem {
   box-sizing: border-box;
   height: 49px;
@@ -50,8 +51,8 @@ export default {
     line-height: 15px;
     text-align: center;
   }
-  .red {
-    color: #218bb4;
+  .color {
+    color: var(--color-tint);
   }
 }
 </style>
