@@ -7,6 +7,8 @@ import 'lib-flexible/flexible.js'
 
 Vue.config.productionTip = false
 
+Vue.prototype.$bus = new Vue(); // 事件线
+
 new Vue({
   router,
   store,

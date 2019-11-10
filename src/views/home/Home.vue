@@ -6,30 +6,41 @@
         <div>购物街</div>
       </template>
     </nav-bar>
-    <!-- 轮播图 -->
-    <home-swiper :swiperBanners="banners" />
-    <!-- 推荐 -->
-    <home-recommend :SwiperRecommend="recomends" />
-    <!-- 本周流行 -->
-    <home-popular />
-    <!-- 三栏导航 -->
-    <tab-control :title="['流行','新款','精选']" @getIndex="getIndex" />
-    <!-- 列表 -->
-    <div class="goodsList">
-      <goods-list :goods="showType" class="goodsList" />
-    </div>
+    <!-- better-scroll -->
+    <scroll
+      class="content"
+      ref="scroll"
+      :probeType="3"
+      @scrollPosition="scrollPosition"
+      :pullUpLoad="true"
+    >
+      <!-- 轮播图 -->
+      <home-swiper :swiperBanners="banners" />
+      <!-- 推荐 -->
+      <home-recommend :SwiperRecommend="recomends" />
+      <!-- 本周流行 -->
+      <home-popular />
+      <!-- 三栏导航 -->
+      <tab-control :title="['流行','新款','精选']" @getIndex="getIndex" />
+      <!-- 列表 -->
+      <div class="goodsList">
+        <goods-list :goods="showType" class="goodsList" />
+      </div>
+    </scroll>
+    <!-- 返回顶部 -->
+    <back-top @click.native="backTop" v-show="flag" />
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/common/navbar/NavBar";
+import Scroll from "@/components/common/scroll/Scroll";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goods/GoodsList";
-
+import BackTop from "@/components/content/backTop/BackTop";
 import HomeSwiper from "./childCmps/HomeSwiper";
 import HomeRecommend from "./childCmps/HomeRecommend";
 import HomePopular from "./childCmps/HomePopular";
-
 import { getHomeData, getHomeGoods } from "@/network/home";
 
 export default {
@@ -39,6 +50,9 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+    this.$bus.$on("itemImgLoad", () => {
+      this.$refs.scroll.refresh();
+    });
   },
   data() {
     return {
@@ -49,7 +63,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      goodsType: "pop"
+      goodsType: "pop",
+      flag: false
     };
   },
   methods: {
@@ -80,6 +95,12 @@ export default {
         default:
           break;
       }
+    },
+    backTop() {
+      this.$refs.scroll.scrollTo(0, 0, 800);
+    },
+    scrollPosition(position) {
+      this.flag = Math.abs(position.y) > 1200 ? true : false;
     }
   },
   computed: {
@@ -93,14 +114,18 @@ export default {
     HomeRecommend,
     HomePopular,
     TabControl,
-    GoodsList
+    GoodsList,
+    Scroll,
+    BackTop
   }
 };
 </script>
 
 <style lang='scss' scoped>
 .home {
+  height: 100vh;
   padding-top: 44px;
+  position: relative;
   .homeNav {
     background-color: var(--color-tint);
     color: #eee;
@@ -110,8 +135,11 @@ export default {
     right: 0;
     z-index: 999;
   }
-  .goodsList {
-    padding-bottom: 26px;
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
   }
 }
 </style>
