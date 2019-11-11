@@ -1,6 +1,6 @@
 <template>
   <div class="goodsListItem">
-    <img :src="goodsItem.show.img" @load="imageLoad" />
+    <img :src="goodsItem.show.img" @load="imageLoad" @click="itemClick" />
     <div class="goodsInfo">
       <p>{{ goodsItem.title }}</p>
       <span class="price">￥{{ goodsItem.price }}</span>
@@ -16,6 +16,9 @@ export default {
   methods: {
     imageLoad() {
       this.$bus.$emit("itemImgLoad");
+    },
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.iid);
     }
   }
 };

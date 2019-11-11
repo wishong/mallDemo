@@ -27,16 +27,22 @@ export default {
     this.scroll.on("scroll", position => {
       this.$emit("scrollPosition", position);
     });
+
+    if (this.pullUpLoad) {
+      this.scroll.on("pullingUp", () => {
+        this.$emit("pullingUp");
+      });
+    }
   },
   methods: {
     scrollTo(x, y, time = 500) {
-      this.scroll.scrollTo(x, y, time);
-    },
-    finishPullUp() {
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.scrollTo(x, y, time);
     },
     refresh() {
-      this.scroll.refresh();
+      this.scroll && this.scroll.refresh();
+    },
+    finishPullUp() {
+      this.scroll && this.scroll.finishPullUp();
     }
   }
 };
