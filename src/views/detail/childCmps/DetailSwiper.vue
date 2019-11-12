@@ -23,8 +23,5 @@ export default {
 .detailSwiper {
   height: 300px;
   overflow: hidden;
-  img {
-    height: 300px;
-  }
 }
 </style>
