@@ -9,8 +9,13 @@
       <detail-param-info :paramInfo="paramInfo" ref="params" />
       <detail-comment-info :commentInfo="commentInfo" ref="comment" />
       <goods-list :goods="recommends" ref="recommends" />
+<<<<<<< HEAD
     </scroll>
     <detail-bottom-bar @addToCart="addToCart" />
+=======
+      <detail-bottom-bar @addToCart="addToCart" />
+    </scroll>
+>>>>>>> ba5756aea17c609b89f2ecd2367bfb6512753594
   </div>
 </template>
 
