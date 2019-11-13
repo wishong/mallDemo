@@ -3,7 +3,7 @@
     <keep-alive exclude="Detail">
       <router-view></router-view>
     </keep-alive>
-    <main-tab-bar></main-tab-bar>
+    <main-tab-bar class="tabBar"></main-tab-bar>
   </div>
 </template>
 
@@ -20,4 +20,7 @@ export default {
 
 <style lang='scss' scoped>
 @import "./assets/css/base.css";
+.tabBar{
+  z-index: 999;
+}
 </style>

@@ -1,62 +1,73 @@
 <template>
-  <div>
-    <!-- 导航 -->
-    <nav-bar>
-      <div slot="left" class="back" @click="back">
-        <img src="@/assets/img/common/back.svg" />
-      </div>
-      <div slot="center" class="title">
-        <div
-          v-for="(item,i) in titles"
-          :key="item"
-          :class="{actived: i=== index}"
-          @click="active(i)"
-        >{{ item }}</div>
-      </div>
-    </nav-bar>
-  </div>
+  <nav-bar class="detail-nav">
+    <img slot="left" class="back" @click="backClick" src="../../../assets/img/common/back.svg" />
+    <div class="title" slot="center">
+      <span
+        class="title-item"
+        v-for="(item, index) in titleInfos"
+        :key="index"
+        :class="{'active': index === currentIndex}"
+        @click="itemClick(index)"
+      >{{item}}</span>
+    </div>
+  </nav-bar>
 </template>
 
 <script>
 import NavBar from "@/components/common/navbar/NavBar";
 
-import { getDetail } from "@/network/detail";
-
 export default {
   name: "DetailNavBar",
-  data() {
-    return {
-      titles: ["商品", "参数", "评论", "推荐"],
-      index: 0
-    };
-  },
-  methods: {
-    active(i) {
-      this.index = i;
-    },
-    back() {
-      this.$router.go(-1);
-    }
-  },
   components: {
     NavBar
+  },
+  data() {
+    return {
+      currentIndex: 0
+    };
+  },
+  props: {
+    titleInfos: {
+      type: Array,
+      default: () => {
+        return ["商品", "参数", "评论", "推荐"];
+      }
+    }
+  },
+  methods: {
+    itemClick: function(index) {
+      this.$emit("itemClick", index);
+      this.currentIndex = index;
+      this.$emit("titleClick", index);
+    },
+    backClick() {
+      this.$router.back();
+    }
   }
 };
 </script>
 
-<style lang='scss' scoped>
-.back {
-  img {
-    margin-top: 13px;
-    width: 20px;
-  }
+<style scoped>
+.detail-nav {
+  background-color: #fff;
+  font-weight: normal;
 }
+
 .title {
   display: flex;
-  justify-content: space-between;
+  padding: 0 20px;
   font-size: 17px;
-  .actived {
-    color: var(--color-tint);
-  }
+}
+
+.title-item {
+  flex: 1;
+}
+
+.title-item.active {
+  color: var(--color-high-text);
+}
+
+.back {
+  margin-top: 12px;
 }
 </style>
