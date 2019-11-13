@@ -9,8 +9,8 @@
       <detail-param-info :paramInfo="paramInfo" ref="params" />
       <detail-comment-info :commentInfo="commentInfo" ref="comment" />
       <goods-list :goods="recommends" ref="recommends" />
-      <detail-bottom-bar @addToCart="addToCart" />
     </scroll>
+    <detail-bottom-bar @addToCart="addToCart" />
   </div>
 </template>
 
@@ -98,7 +98,13 @@ export default {
       let positionY = Math.abs(position.y);
     },
     addToCart() {
-      console.log(1);
+      const product = {};
+      product.image = this.swiperImgs[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.iid;
+      this.$store.commit("addCart", product);
     }
   },
   components: {
@@ -111,8 +117,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     GoodsList,
-    DetailBottomBar,
-    BackTop
+    DetailBottomBar
   }
 };
 </script>
